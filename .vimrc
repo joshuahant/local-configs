@@ -1,11 +1,11 @@
 "Leader section
 let mapleader=","       " map leader to ,
 
-syntax enable			" enable syntax processing
+syntax enable           " enable syntax processing
 set t_Co=256
 if has('gui_running')
-    set guioptions-=T "remove toolbar
-    set guioptions-=m "remove menu bar
+    set guioptions-=T   "remove toolbar
+    set guioptions-=m   "remove menu bar
 else
     set term=screen-256color
 endif
@@ -15,28 +15,32 @@ colorscheme solarized
 set termguicolors
 
 "tabs section
-set tabstop=4			" nuber of visual spaces per TAB
+set tabstop=4           " nuber of visual spaces per TAB
 set shiftwidth=4        " automatic indent
-set expandtab			" tabs are spaces
-set smarttab            " Treat shiftwidth spaces as a 'virtual tab' 
+set expandtab           " tabs are spaces
+set smarttab            " Treat shiftwidth spaces as a 'virtual tab'
 set shiftround          " Round shift operators '>' and '<' to a multiple of shiftwidth
 
 "UI section
-set number 			    " show line nunmbers
+set number              " show line nunmbers
 set showcmd             " show last command in bottomm bar
 set cursorline          " highlight currentline
-filetype indent on     " load filetype-specific indent files
+filetype indent on      " load filetype-specific indent files
 set wildmenu            " visual autocomplete for command menu
 set lazyredraw          " redraw only when we need to
 set showmatch           " highlight matching [{()}]
 set autoread            " Automatically update files if changed outside of vim
+
+"display trailing white space, eol, etc.
+set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<
+set list
 
 "Searching
 set incsearch           " search as characters are entered
 set hlsearch            " highlight matches
 
 " turn off search highlight
-nnoremap <leader><space> :nohlsearch<CR>  
+nnoremap <leader><space> :nohlsearch<CR>
 
 "Movement
 " move vertically by visual line
@@ -72,30 +76,11 @@ else
 endif
 
 "autogroups set settings based on file type
-augroup configgroup
-    autocmd!
-    autocmd VimEnter * highlight clear SignColumn
-    autocmd BufWritePre *.php,*.py,*.js,*.txt,*.hs,*.java,*.md
-                \:call <SID>StripTrailingWhitespaces()
-    autocmd FileType java setlocal noexpandtab
-    autocmd FileType java setlocal list
-    autocmd FileType java setlocal listchars=tab:+\ ,eol:-
-    autocmd FileType java setlocal formatprg=par\ -w80\ -T4
-    autocmd FileType php setlocal expandtab
-    autocmd FileType php setlocal list
-    autocmd FileType php setlocal listchars=tab:+\ ,eol:-
-    autocmd FileType php setlocal formatprg=par\ -w80\ -T4
-    autocmd FileType ruby setlocal tabstop=2
-    autocmd FileType ruby setlocal shiftwidth=2
-    autocmd FileType ruby setlocal softtabstop=2
-    autocmd FileType ruby setlocal commentstring=#\ %s
-    autocmd FileType python setlocal commentstring=#\ %s
-    autocmd BufEnter *.cls setlocal filetype=java
-    autocmd BufEnter *.zsh-theme setlocal filetype=zsh
-    autocmd BufEnter Makefile setlocal noexpandtab
-    autocmd BufEnter *.sh setlocal tabstop=2
-    autocmd BufEnter *.sh setlocal shiftwidth=2
-    autocmd BufEnter *.sh setlocal softtabstop=2
+augroup vimrc
+autocmd!
+    autocmd BufNewFile *.py 0put =\"#!/usr/bin/python3\<nl>\"|$
+    autocmd BufNewFile *.sh 0put =\"#!/usr/bin/sh\<nl>\"|$
+    autocmd BufWritePre * :%s/\s\+$//e
 augroup END
 
 " back up section
@@ -104,18 +89,6 @@ set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set backupskip=/tmp/*,/private/tmp/*
 set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set writebackup
-
-" strips trailing whitespace at the end of files. this
-" is called on buffer write in the autogroup above.
-function! <SID>StripTrailingWhitespaces()
-    " save last search & cursor position
-    let _s=@/
-    let l = line(".")
-    let c = col(".")
-    %s/\s\+$//e
-    let @/=_s
-    call cursor(l, c)
-endfunction
 
 command! Bclose call <SID>BufcloseCloseIt()
 function! <SID>BufcloseCloseIt()
