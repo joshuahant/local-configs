@@ -1,16 +1,40 @@
+if empty(glob('~/.vim/autoload/plug.vim'))
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+call plug#begin('~/.vim/plugged')
+"nerdtree
+Plug 'scrooloose/nerdtree'
+" fzf
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+  " Both options are optional. You don't have to install fzf in ~/.fzf
+  " and you don't have to run install script if you use fzf only in Vim.
+  "
+"buffexplorer
+Plug 'jlanzarotta/bufexplorer'
+
+"solarized colors
+Plug 'ericbn/vim-solarized'
+
+"New syntax
+Plug 'sheerun/vim-polyglot'
+call plug#end()
+
 "Leader section
 let mapleader=","       " map leader to ,
 
-syntax enable           " enable syntax processing
+syntax on           " enable syntax processing
 set t_Co=256
 if has('gui_running')
     set guioptions-=T   "remove toolbar
     set guioptions-=m   "remove menu bar
 else
-    set term=screen-256color
+    set term=xterm-256color
 endif
-    set background=dark
-
+set background=dark
 colorscheme solarized
 set termguicolors
 
@@ -56,16 +80,21 @@ map 0 ^C-l> <C-W>l
 " save session of windows - open them with vim -S
 " nnoremap <leader>s :mksession<CR>
 
-" open ag.vim
-"nnoremap <leader>a :Ag
+"Nerdtree mapping
+nnoremap <silent> <F11> :NERDTreeToggle<CR>
+nnoremap <silent> <C-F11> :NERDTreeFind<CR>
 
-"CtrlP settings
-set runtimepath^=~/.vim/bundle/ctrlp.vim
-let g:ctrlp_match_window = 'bottom,order:ttb'
-let g:ctrlp_switch_buffer = 0
-let g:ctrlp_working_path_mode = 0
-let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+map <F12> :buffers<BAR>
+           \let i = input("Buffer number: ")<BAR>
+           \execute "buffer " . i<CR>
 
+map <C-p> :Files<CR>
+
+" leader f to search for filename under cursor using fzf
+nnoremap <leader>f <Esc>:call fzf#vim#files('', {'options':'--query='.fzf#shellescape(expand('<cfile>:t'))})<CR>
+
+" leader o to open directory of the current file.
+nnoremap <leader>o <Esc>:exec "e " . expand('%:p:h')<CR>
 " allows cursor change in tmux mode change to vertical bar cursor
 if exists('$TMUX')
     let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
