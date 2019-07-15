@@ -22,11 +22,11 @@ Plug 'ericbn/vim-solarized'
 "New syntax
 Plug 'sheerun/vim-polyglot'
 
-#status/tabline
+"status/tabline
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
-#vim-tmux-navigator
+"vim-tmux-navigator
 Plug 'christoomey/vim-tmux-navigator'
 call plug#end()
 
@@ -61,6 +61,11 @@ set lazyredraw          " redraw only when we need to
 set showmatch           " highlight matching [{()}]
 set autoread            " Automatically update files if changed outside of vim
 
+"vim-airline/vim-airline setup
+set laststatus=2
+let g:airline#extensions#tabline#enabled = 1 " Show buffer list in airline
+let g:airline_powerline_fonts = 1 " Use Powerline fonts
+let g:airline_theme='dark'
 "display trailing white space, eol, etc.
 set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<
 set list
