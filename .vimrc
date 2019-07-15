@@ -21,6 +21,13 @@ Plug 'ericbn/vim-solarized'
 
 "New syntax
 Plug 'sheerun/vim-polyglot'
+
+#status/tabline
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+#vim-tmux-navigator
+Plug 'christoomey/vim-tmux-navigator'
 call plug#end()
 
 "Leader section
@@ -28,15 +35,14 @@ let mapleader=","       " map leader to ,
 
 syntax on           " enable syntax processing
 set t_Co=256
-if has('gui_running')
-    set guioptions-=T   "remove toolbar
-    set guioptions-=m   "remove menu bar
-else
-    set term=xterm-256color
-endif
 set background=dark
 colorscheme solarized
 set termguicolors
+
+if has('gui_running')
+    set guioptions-=T   "remove toolbar
+    set guioptions-=m   "remove menu bar
+endif
 
 "tabs section
 set tabstop=4           " nuber of visual spaces per TAB
