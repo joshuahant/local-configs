@@ -86,7 +86,7 @@ map <C-j> <C-W>j
 map <C-k> <C-W>k
 map <C-h> <C-W>h
 " Remap VIM 0 to first non-blank character
-map 0 ^C-l> <C-W>l
+map 0 ^
 
 " save session of windows - open them with vim -S
 " nnoremap <leader>s :mksession<CR>
