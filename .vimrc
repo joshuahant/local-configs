@@ -56,6 +56,7 @@ set number              " show line nunmbers
 set showcmd             " show last command in bottomm bar
 set cursorline          " highlight currentline
 filetype indent on      " load filetype-specific indent files
+set wildmode=longest,list "A list of completions will be shown"
 set wildmenu            " visual autocomplete for command menu
 set lazyredraw          " redraw only when we need to
 set showmatch           " highlight matching [{()}]
@@ -66,6 +67,7 @@ set laststatus=2
 let g:airline#extensions#tabline#enabled = 1 " Show buffer list in airline
 let g:airline_powerline_fonts = 1 " Use Powerline fonts
 let g:airline_theme='dark'
+
 "display trailing white space, eol, etc.
 set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<
 set list
@@ -106,6 +108,9 @@ nnoremap <leader>f <Esc>:call fzf#vim#files('', {'options':'--query='.fzf#shelle
 
 " leader o to open directory of the current file.
 nnoremap <leader>o <Esc>:exec "e " . expand('%:p:h')<CR>
+
+" Reload .vimrc
+nmap <leader>~ :source ~/.vimrc<CR>:redraw!<CR>:echo "~/.vimrc reloaded!:<CR>
 " allows cursor change in tmux mode change to vertical bar cursor
 if exists('$TMUX')
     let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
