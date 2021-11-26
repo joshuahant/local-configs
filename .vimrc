@@ -17,10 +17,10 @@ Plug 'junegunn/fzf.vim'
 Plug 'jlanzarotta/bufexplorer'
 
 "solarized colors
-Plug 'ericbn/vim-solarized'
+Plug 'altercation/vim-colors-solarized'
 
-"New syntax
-Plug 'sheerun/vim-polyglot'
+"c, bison, flex syntax
+Plug 'justinmk/vim-syntax-extra'
 
 "status/tabline
 Plug 'vim-airline/vim-airline'
@@ -28,16 +28,27 @@ Plug 'vim-airline/vim-airline-themes'
 
 "vim-tmux-navigator
 Plug 'christoomey/vim-tmux-navigator'
+
+"html close tags
+Plug 'mattn/emmet-vim'
+
 call plug#end()
 
 "Leader section
-let mapleader=","       " map leader to ,
+let mapleader=","       " map leader to ;
 
 syntax on           " enable syntax processing
+syntax enable
 set t_Co=256
 set background=dark
+let g:solarized_termcolors=256
+if has('gui_running')
+    let g:solarized_contrast="normal"
+else
+    let g:solarized_contrast="high"
+endif
 colorscheme solarized
-set termguicolors
+"set termguicolors
 
 if has('gui_running')
     set guioptions-=T   "remove toolbar
@@ -76,6 +87,9 @@ set list
 set incsearch           " search as characters are entered
 set hlsearch            " highlight matches
 
+"set clipboard register to +
+set clipboard=unnamedplus
+
 " turn off search highlight
 nnoremap <leader><space> :nohlsearch<CR>
 
@@ -110,7 +124,7 @@ nnoremap <leader>f <Esc>:call fzf#vim#files('', {'options':'--query='.fzf#shelle
 nnoremap <leader>o <Esc>:exec "e " . expand('%:p:h')<CR>
 
 " Reload .vimrc
-nmap <leader>~ :source ~/.vimrc<CR>:redraw!<CR>:echo "~/.vimrc reloaded!:<CR>
+nmap <leader>~ :source ~/.vimrc<CR>:redraw!<CR>:echo "~/.vimrc reloaded!:<CR>"
 " allows cursor change in tmux mode change to vertical bar cursor
 if exists('$TMUX')
     let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
@@ -153,4 +167,15 @@ endif
 if buflisted(l:currentBufNum)
     execute("bdelete! ".l:currentBufNum)
 endif
+
+
+"emnet features
+"
+""enable just for html/css
+let g:user_emmet_install_global = 0
+autocmd FileType html,css EmmetInstall
 endfunction
+
+"Set tabs to default for Makefiles
+autocmd FileType make setlocal noexpandtab
+autocmd FileType make setlocal tabstop=8
