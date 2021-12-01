@@ -32,6 +32,10 @@ Plug 'christoomey/vim-tmux-navigator'
 "html close tags
 Plug 'mattn/emmet-vim'
 
+"Vim Linux Coding Style - Replace /dir with directories you want included
+Plug 'vivien/vim-linux-coding-style'
+let g:linuxsty_patterns = [ "/dir" ]
+
 call plug#end()
 
 "Leader section
